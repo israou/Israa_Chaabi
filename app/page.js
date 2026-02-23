@@ -27,7 +27,7 @@ export default function HomePage() {
     <PortfolioShell
       tag="Futuristic Portfolio"
       title="Israa Chaabi"
-      role="Full-Stack Developer"
+      role="Full-Stack Developer | Digital & Software Engineering Architect"
       summary="I build elegant and reliable digital products, from polished frontends to scalable backend systems."
       chips={["Casablanca", "Arabic | French | English", "React | Node.js | Docker"]}
       imagePriority
