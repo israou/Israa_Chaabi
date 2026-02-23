@@ -93,9 +93,6 @@ export default function PortfolioShell({
   return (
     <main className="page">
       <header className="topbar reveal">
-        <div className="brand">
-          <span>Israa</span> Chaabi
-        </div>
         <nav className="nav" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
             <Link
