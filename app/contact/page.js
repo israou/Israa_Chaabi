@@ -1,4 +1,5 @@
 import PortfolioShell from "../../components/PortfolioShell";
+import Link from "next/link";
 
 const contactLinks = [
   { label: "Email", value: "chaabi@israa.engineer", href: "mailto:chaabi@israa.engineer" },
@@ -21,7 +22,7 @@ export default function ContactPage() {
       chips={["Fast response", "Remote friendly", "Team collaboration", "Product focused"]}
     >
       <section className="grid">
-        <article className="card section span-7 reveal delay-1">
+        <article className="card section span-12 reveal delay-1">
           <h2>Get In Touch</h2>
           <p className="summary summary-tight">
             Send me a message and I will get back quickly. I can join projects involving frontend, backend,
@@ -37,21 +38,16 @@ export default function ContactPage() {
           </div>
         </article>
 
-        <article className="card section span-5 reveal delay-2">
-          <h2>Availability</h2>
-          <div className="education">
-            <div className="item">
-              <strong>Current status</strong>
-              <span>Open to new opportunities</span>
-            </div>
-            <div className="item">
-              <strong>Preferred roles</strong>
-              <span>Full-Stack Developer | Frontend Engineer</span>
-            </div>
-            <div className="item">
-              <strong>Location</strong>
-              <span>Casablanca, Morocco (remote friendly)</span>
-            </div>
+        <article className="card section span-12 reveal delay-2">
+          <h2>More About Me</h2>
+          <p className="summary summary-tight">
+            Want a more personal vibe? Check the <strong>Me Chill</strong> page with my lifestyle photo, creative
+            story, and availability.
+          </p>
+          <div className="topbar-actions">
+            <Link className="cta" href="/me-chill">
+              Open Me Chill
+            </Link>
           </div>
         </article>
       </section>

@@ -3,14 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/skills", label: "Skills" },
   { href: "/projects", label: "Projects" },
   { href: "/contact", label: "Contact" },
+  { href: "/me-chill", label: "Me Chill" },
 ];
+
+const MOBILE_MENU_ICON_VARIANT = "v3";
+const MOBILE_NAV_VARIANT = "v2";
 
 export default function PortfolioShell({
   tag,
@@ -20,10 +24,13 @@ export default function PortfolioShell({
   chips,
   stats,
   imagePriority = false,
+  hideHero = false,
   children,
 }) {
   const pathname = usePathname();
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const mobileNavCloseRef = useRef(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitState, setSubmitState] = useState("idle");
   const [submitMessage, setSubmitMessage] = useState("");
@@ -54,6 +61,40 @@ export default function PortfolioShell({
       setSubmitMessage("");
     }
   }, [isContactOpen]);
+
+  useEffect(() => {
+    setIsMobileNavOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (isMobileNavOpen) {
+      document.body.classList.add("mobile-nav-open");
+      mobileNavCloseRef.current?.focus();
+    } else {
+      document.body.classList.remove("mobile-nav-open");
+    }
+
+    return () => {
+      document.body.classList.remove("mobile-nav-open");
+    };
+  }, [isMobileNavOpen]);
+
+  useEffect(() => {
+    if (!isMobileNavOpen) {
+      return;
+    }
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsMobileNavOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isMobileNavOpen]);
 
   const onInputChange = (event) => {
     const { name, value } = event.target;
@@ -93,6 +134,23 @@ export default function PortfolioShell({
   return (
     <main className="page">
       <header className="topbar reveal">
+        <span className="mobile-topbar-title">Navigation</span>
+        <button
+          className="mobile-menu-toggle"
+          type="button"
+          onClick={() => setIsMobileNavOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={isMobileNavOpen}
+          aria-controls="mobile-nav-panel"
+        >
+          <span className={`mobile-menu-bars mobile-menu-bars-${MOBILE_MENU_ICON_VARIANT}`} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+          </span>
+          <span className="sr-only">Open menu</span>
+        </button>
         <nav className="nav" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
             <Link
@@ -122,47 +180,110 @@ export default function PortfolioShell({
         </div>
       </header>
 
-      <section className="hero">
-        <article className="card hero-main reveal delay-1">
-          <span className="tag">{tag}</span>
-          <h1>
-            I&apos;m <em>{title}</em>
-          </h1>
-          <p className="role">{role}</p>
-          <p className="summary">{summary}</p>
-
-          <div className="chip-row">
-            {chips.map((chip) => (
-              <span className="chip" key={chip}>
-                {chip}
-              </span>
-            ))}
-          </div>
-
-          {Array.isArray(stats) && stats.length > 0 ? (
-            <div className="count-row">
-              {stats.map((stat) => (
-                <div className="count" key={stat.label}>
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </div>
+      {isMobileNavOpen ? (
+        <div className="mobile-nav-overlay" role="presentation" onClick={() => setIsMobileNavOpen(false)}>
+          <aside
+            className={`mobile-nav-panel mobile-nav-panel-${MOBILE_NAV_VARIANT} card`}
+            id="mobile-nav-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-nav-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mobile-nav-head">
+              <strong id="mobile-nav-title">Navigate</strong>
+              <button
+                className="mobile-nav-close"
+                type="button"
+                onClick={() => setIsMobileNavOpen(false)}
+                aria-label="Close menu"
+                ref={mobileNavCloseRef}
+              >
+                x
+              </button>
+            </div>
+            <div className={`mobile-nav-links mobile-nav-links-${MOBILE_NAV_VARIANT}`}>
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={`mobile-${item.href}`}
+                  href={item.href}
+                  className={
+                    item.href === "/"
+                      ? pathname === "/"
+                        ? "active"
+                        : ""
+                      : pathname.startsWith(item.href)
+                        ? "active"
+                        : ""
+                  }
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  {item.label}
+                </Link>
               ))}
             </div>
-          ) : null}
-        </article>
+            <div className={`mobile-nav-actions mobile-nav-actions-${MOBILE_NAV_VARIANT}`}>
+              <a className="cta cta-secondary" href="/IsraaChaabi_dev.pdf" target="_blank" rel="noreferrer">
+                Open CV
+              </a>
+              <button
+                className="cta cta-button"
+                type="button"
+                onClick={() => {
+                  setIsMobileNavOpen(false);
+                  setIsContactOpen(true);
+                }}
+              >
+                Let&apos;s Talk
+              </button>
+            </div>
+          </aside>
+        </div>
+      ) : null}
 
-        <article className="card hero-photo reveal delay-2">
-          <Image
-            src="/profile.jpg"
-            alt="Portrait of Israa Chaabi"
-            width={1242}
-            height={2208}
-            priority={imagePriority}
-            sizes="(max-width: 1024px) 100vw, 38vw"
-          />
-          <div className="status">Open to Opportunities</div>
-        </article>
-      </section>
+      {!hideHero ? (
+        <section className="hero">
+          <article className="card hero-main reveal delay-1">
+            <span className="tag">{tag}</span>
+            <h1>
+              I&apos;m <em>{title}</em>
+            </h1>
+            <p className="role">{role}</p>
+            <p className="summary">{summary}</p>
+
+            <div className="chip-row">
+              {(chips ?? []).map((chip) => (
+                <span className="chip" key={chip}>
+                  {chip}
+                </span>
+              ))}
+            </div>
+
+            {Array.isArray(stats) && stats.length > 0 ? (
+              <div className="count-row">
+                {stats.map((stat) => (
+                  <div className="count" key={stat.label}>
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </article>
+
+          <article className="card hero-photo reveal delay-2">
+            <Image
+              src="/profile.png"
+              alt="Portrait of Israa Chaabi"
+              width={1242}
+              height={2208}
+              priority={imagePriority}
+              sizes="(max-width: 1024px) 100vw, 38vw"
+            />
+            <div className="status">Open to Opportunities</div>
+          </article>
+        </section>
+      ) : null}
 
       {children}
 
