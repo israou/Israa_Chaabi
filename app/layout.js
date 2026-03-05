@@ -1,5 +1,6 @@
 import { Space_Grotesk, Sora } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "../components/LanguageProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -19,7 +20,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <body className={`${spaceGrotesk.variable} ${sora.variable}`}>{children}</body>
+      <body className={`${spaceGrotesk.variable} ${sora.variable}`}>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

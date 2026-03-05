@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect } from "react";
 import PortfolioShell from "../../components/PortfolioShell";
+import { useLanguage } from "../../components/LanguageProvider";
 
 const projectGroups = [
   {
@@ -112,23 +116,156 @@ const projectGroups = [
 ];
 
 export default function ProjectsPage() {
+  const { lang } = useLanguage();
+  const text = {
+    en: {
+      tag: "Project Archive",
+      role: "Selected Engineering Work",
+      summary: "Hands-on projects covering full-stack development, systems programming, concurrency, and infrastructure.",
+      chips: ["Product delivery", "System design", "Security first", "Performance aware"],
+      breakdown: "Project Breakdown",
+      openRepo: "Open GitHub Repo",
+      labels: {
+        "Core Cursus": "Core Cursus",
+        "System & Networking": "System & Networking",
+        "Object-Oriented Programming": "Object-Oriented Programming",
+        "DevOps Track": "DevOps Track",
+        "Advanced Product": "Advanced Product",
+      },
+    },
+    fr: {
+      tag: "Archive Projets",
+      role: "Sélection de travaux d'ingénierie",
+      summary:
+        "Projets pratiques couvrant le full-stack, la programmation système, la concurrence et l'infrastructure.",
+      chips: ["Delivery produit", "System design", "Security first", "Orientée performance"],
+      breakdown: "Détail des Projets",
+      openRepo: "Ouvrir le dépôt GitHub",
+      labels: {
+        "Core Cursus": "Cursus Fondamental",
+        "System & Networking": "Systèmes & Réseau",
+        "Object-Oriented Programming": "Programmation Orientée Objet",
+        "DevOps Track": "Parcours DevOps",
+        "Advanced Product": "Produit Avancé",
+      },
+    },
+  }[lang];
+
+  useEffect(() => {
+    const isMobileOrTablet = window.matchMedia("(max-width: 1024px)").matches;
+    if (!isMobileOrTablet) {
+      return;
+    }
+
+    const sliders = Array.from(document.querySelectorAll(".project-category .project-list-large")).filter(
+      (slider) => slider.scrollWidth > slider.clientWidth + 4
+    );
+    if (sliders.length === 0) {
+      return;
+    }
+
+    const states = sliders.map((slider) => ({
+      slider,
+      paused: false,
+      controller: null,
+      clones: [],
+      originalWidth: 0,
+    }));
+    const speedPxPerSecond = 34;
+    let rafId = null;
+    let previousTime = null;
+
+    states.forEach((state) => {
+      const { slider } = state;
+      slider.classList.add("is-auto-scrolling");
+
+      const originalItems = Array.from(slider.children);
+      const clones = originalItems.map((node) => {
+        const clone = node.cloneNode(true);
+        clone.setAttribute("data-auto-clone", "true");
+        clone.setAttribute("aria-hidden", "true");
+        if (clone instanceof HTMLElement) {
+          clone.tabIndex = -1;
+        }
+        return clone;
+      });
+      clones.forEach((clone) => slider.appendChild(clone));
+      state.clones = clones;
+      state.originalWidth = slider.scrollWidth / 2;
+
+      const pause = () => {
+        state.paused = true;
+      };
+      const resume = () => {
+        state.paused = false;
+      };
+
+      const controller = new AbortController();
+      state.controller = controller;
+      const listenerOptions = { signal: controller.signal };
+
+      slider.addEventListener("touchstart", pause, { passive: true, ...listenerOptions });
+      slider.addEventListener("touchend", resume, { passive: true, ...listenerOptions });
+      slider.addEventListener("pointerdown", pause, listenerOptions);
+      slider.addEventListener("pointerup", resume, listenerOptions);
+      slider.addEventListener("mouseenter", pause, listenerOptions);
+      slider.addEventListener("mouseleave", resume, listenerOptions);
+    });
+
+    const tick = (timestamp) => {
+      if (previousTime === null) {
+        previousTime = timestamp;
+      }
+
+      const deltaSeconds = (timestamp - previousTime) / 1000;
+      previousTime = timestamp;
+
+      states.forEach((state) => {
+        const { slider, paused, originalWidth } = state;
+        if (paused || document.hidden) {
+          return;
+        }
+
+        slider.scrollLeft += speedPxPerSecond * deltaSeconds;
+        if (slider.scrollLeft >= originalWidth) {
+          slider.scrollLeft -= originalWidth;
+        }
+      });
+
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    rafId = window.requestAnimationFrame(tick);
+
+    return () => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+      states.forEach(({ slider, controller, clones }) => {
+        controller?.abort();
+        clones.forEach((clone) => clone.remove());
+        slider.classList.remove("is-auto-scrolling");
+      });
+    };
+  }, []);
+
   return (
     <PortfolioShell
-      tag="Project Archive"
+      tag={text.tag}
       title="Israa Chaabi"
-      role="Selected Engineering Work"
-      summary="Hands-on projects covering full-stack development, systems programming, concurrency, and infrastructure."
-      chips={["Product delivery", "System design", "Security first", "Performance aware"]}
+      role={text.role}
+      summary={text.summary}
+      chips={text.chips}
     >
       <section className="grid">
         <article className="card section span-12 reveal delay-1">
-          <h2>Project Breakdown</h2>
+          <h2>{text.breakdown}</h2>
           <div className="project-groups">
             {projectGroups.map((group, groupIndex) => (
               <section className={`project-category reveal delay-${(groupIndex % 3) + 1}`} key={group.title}>
                 <div className="project-category-head">
                   <h3>{group.title}</h3>
-                  <span>{group.label}</span>
+                  <span>{text.labels[group.label] ?? group.label}</span>
                 </div>
                 <div className="project-list project-list-large">
                   {group.projects.map((project, projectIndex) => (
@@ -142,7 +279,7 @@ export default function ProjectsPage() {
                       <strong>{project.title}</strong>
                       <p>{project.text}</p>
                       <p className="project-stack">{project.stack}</p>
-                      <p className="project-cta">Open GitHub Repo</p>
+                      <p className="project-cta">{text.openRepo}</p>
                     </a>
                   ))}
                 </div>

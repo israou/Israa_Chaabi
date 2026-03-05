@@ -1,5 +1,8 @@
+"use client";
+
 import PortfolioShell from "../../components/PortfolioShell";
 import Link from "next/link";
+import { useLanguage } from "../../components/LanguageProvider";
 
 const contactLinks = [
   { label: "Email", value: "chaabi@israa.engineer", href: "mailto:chaabi@israa.engineer" },
@@ -13,21 +16,47 @@ const contactLinks = [
 ];
 
 export default function ContactPage() {
+  const { lang } = useLanguage();
+  const copy = {
+    en: {
+      tag: "Contact Hub",
+      role: "Let us build something powerful",
+      summary: "Open to internships, freelance opportunities, and collaboration on ambitious web and software projects.",
+      chips: ["Fast response", "Remote friendly", "Team collaboration", "Product focused"],
+      getInTouch: "Get In Touch",
+      body: "Send me a message and I will get back quickly. I can join projects involving frontend, backend, full-stack architecture, or containerized deployments.",
+      moreAboutMe: "More About Me",
+      moreBody:
+        "Want a more personal vibe? Check the Me Chill page with my lifestyle photo, creative story, and availability.",
+      openMeChill: "Open Me Chill",
+    },
+    fr: {
+      tag: "Contact",
+      role: "Construisons quelque chose de fort",
+      summary:
+        "Ouverte aux stages, opportunités freelance et collaborations sur des projets web et software ambitieux.",
+      chips: ["Réponse rapide", "Remote friendly", "Collaboration équipe", "Orientée produit"],
+      getInTouch: "Entrer en Contact",
+      body: "Envoie-moi un message et je répondrai rapidement. Je peux rejoindre des projets frontend, backend, architecture full-stack ou déploiements conteneurisés.",
+      moreAboutMe: "Plus À Mon Sujet",
+      moreBody:
+        "Tu veux une version plus personnelle ? Découvre la page Me Chill avec ma photo lifestyle, mon univers créatif et mes disponibilités.",
+      openMeChill: "Ouvrir Me Chill",
+    },
+  }[lang];
+
   return (
     <PortfolioShell
-      tag="Contact Hub"
+      tag={copy.tag}
       title="Israa Chaabi"
-      role="Let us build something powerful"
-      summary="Open to internships, freelance opportunities, and collaboration on ambitious web and software projects."
-      chips={["Fast response", "Remote friendly", "Team collaboration", "Product focused"]}
+      role={copy.role}
+      summary={copy.summary}
+      chips={copy.chips}
     >
       <section className="grid">
         <article className="card section span-12 reveal delay-1">
-          <h2>Get In Touch</h2>
-          <p className="summary summary-tight">
-            Send me a message and I will get back quickly. I can join projects involving frontend, backend,
-            full-stack architecture, or containerized deployments.
-          </p>
+          <h2>{copy.getInTouch}</h2>
+          <p className="summary summary-tight">{copy.body}</p>
           <div className="contact-grid">
             {contactLinks.map((link) => (
               <a key={link.label} className="contact-tile" href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined}>
@@ -39,14 +68,11 @@ export default function ContactPage() {
         </article>
 
         <article className="card section span-12 reveal delay-2">
-          <h2>More About Me</h2>
-          <p className="summary summary-tight">
-            Want a more personal vibe? Check the <strong>Me Chill</strong> page with my lifestyle photo, creative
-            story, and availability.
-          </p>
+          <h2>{copy.moreAboutMe}</h2>
+          <p className="summary summary-tight">{copy.moreBody}</p>
           <div className="topbar-actions">
             <Link className="cta" href="/me-chill">
-              Open Me Chill
+              {copy.openMeChill}
             </Link>
           </div>
         </article>

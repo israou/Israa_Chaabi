@@ -4,17 +4,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "./LanguageProvider";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Home" },
-  { href: "/skills", label: "Skills" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
-  { href: "/me-chill", label: "Me Chill" },
+  { href: "/", key: "home" },
+  { href: "/skills", key: "skills" },
+  { href: "/projects", key: "projects" },
+  { href: "/contact", key: "contact" },
+  { href: "/me-chill", key: "meChill" },
 ];
 
 const MOBILE_MENU_ICON_VARIANT = "v3";
-const MOBILE_NAV_VARIANT = "v2";
+const MOBILE_NAV_VARIANT = "v4";
 
 export default function PortfolioShell({
   tag,
@@ -27,6 +28,7 @@ export default function PortfolioShell({
   hideHero = false,
   children,
 }) {
+  const { lang, toggleLang } = useLanguage();
   const pathname = usePathname();
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -34,6 +36,70 @@ export default function PortfolioShell({
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitState, setSubmitState] = useState("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const text = {
+    en: {
+      nav: { home: "Home", skills: "Skills", projects: "Projects", contact: "Contact", meChill: "Me Chill" },
+      openMenu: "Open menu",
+      mobileTitle: "Navigation",
+      navigate: "Navigate",
+      closeMenu: "Close menu",
+      openCv: "Open CV",
+      letsTalk: "Let's Talk",
+      heroIntro: "I'm",
+      openToOpportunities: "Open to Opportunities",
+      closeContactForm: "Close contact form",
+      contactTitle: "Let's Talk",
+      form: {
+        name: "Name",
+        email: "Email",
+        message: "Message",
+        namePlaceholder: "Your name",
+        emailPlaceholder: "your@email.com",
+        messagePlaceholder: "Tell me about your project...",
+        cancel: "Cancel",
+        sending: "Sending...",
+        send: "Send Message",
+      },
+      feedback: {
+        success: "Message sent successfully. I will get back to you soon.",
+        error: "Something went wrong. Please try again.",
+        failed: "Message sending failed.",
+      },
+      langSwitch: "FR",
+      langSwitchAria: "Switch language to French",
+    },
+    fr: {
+      nav: { home: "Accueil", skills: "Compétences", projects: "Projets", contact: "Contact", meChill: "Me Chill" },
+      openMenu: "Ouvrir le menu",
+      mobileTitle: "Navigation",
+      navigate: "Naviguer",
+      closeMenu: "Fermer le menu",
+      openCv: "Ouvrir le CV",
+      letsTalk: "Discutons",
+      heroIntro: "Je suis",
+      openToOpportunities: "Ouverte aux opportunités",
+      closeContactForm: "Fermer le formulaire",
+      contactTitle: "Discutons",
+      form: {
+        name: "Nom",
+        email: "Email",
+        message: "Message",
+        namePlaceholder: "Votre nom",
+        emailPlaceholder: "votre@email.com",
+        messagePlaceholder: "Parlez-moi de votre projet...",
+        cancel: "Annuler",
+        sending: "Envoi...",
+        send: "Envoyer",
+      },
+      feedback: {
+        success: "Message envoyé avec succès. Je vous répondrai rapidement.",
+        error: "Une erreur est survenue. Veuillez réessayer.",
+        failed: "L'envoi du message a échoué.",
+      },
+      langSwitch: "EN",
+      langSwitchAria: "Basculer la langue vers l'anglais",
+    },
+  }[lang];
 
   useEffect(() => {
     if (!isContactOpen) {
@@ -119,27 +185,26 @@ export default function PortfolioShell({
         const detailedMessage = [result?.message, result?.providerError]
           .filter(Boolean)
           .join(" ");
-        throw new Error(detailedMessage || "Message sending failed.");
+        throw new Error(detailedMessage || text.feedback.failed);
       }
 
       setSubmitState("success");
-      setSubmitMessage("Message sent successfully. I will get back to you soon.");
+      setSubmitMessage(text.feedback.success);
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
       setSubmitState("error");
-      setSubmitMessage(error.message || "Something went wrong. Please try again.");
+      setSubmitMessage(error.message || text.feedback.error);
     }
   };
 
   return (
     <main className="page">
       <header className="topbar reveal">
-        <span className="mobile-topbar-title">Navigation</span>
         <button
           className="mobile-menu-toggle"
           type="button"
           onClick={() => setIsMobileNavOpen(true)}
-          aria-label="Open menu"
+          aria-label={text.openMenu}
           aria-expanded={isMobileNavOpen}
           aria-controls="mobile-nav-panel"
         >
@@ -149,8 +214,9 @@ export default function PortfolioShell({
             <span />
             <span />
           </span>
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only">{text.openMenu}</span>
         </button>
+        <span className="mobile-topbar-title">{text.mobileTitle}</span>
         <nav className="nav" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
             <Link
@@ -166,16 +232,19 @@ export default function PortfolioShell({
                     : ""
               }
             >
-              {item.label}
+              {text.nav[item.key]}
             </Link>
           ))}
         </nav>
         <div className="topbar-actions">
+          <button className="lang-toggle" type="button" onClick={toggleLang} aria-label={text.langSwitchAria}>
+            {text.langSwitch}
+          </button>
           <a className="cta cta-secondary" href="/IsraaChaabi_dev.pdf" target="_blank" rel="noreferrer">
-            Open CV
+            {text.openCv}
           </a>
           <button className="cta cta-button" type="button" onClick={() => setIsContactOpen(true)}>
-            Let&apos;s Talk
+            {text.letsTalk}
           </button>
         </div>
       </header>
@@ -191,12 +260,12 @@ export default function PortfolioShell({
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mobile-nav-head">
-              <strong id="mobile-nav-title">Navigate</strong>
+              <strong id="mobile-nav-title">{text.navigate}</strong>
               <button
                 className="mobile-nav-close"
                 type="button"
                 onClick={() => setIsMobileNavOpen(false)}
-                aria-label="Close menu"
+                aria-label={text.closeMenu}
                 ref={mobileNavCloseRef}
               >
                 x
@@ -218,13 +287,16 @@ export default function PortfolioShell({
                   }
                   onClick={() => setIsMobileNavOpen(false)}
                 >
-                  {item.label}
+                  {text.nav[item.key]}
                 </Link>
               ))}
             </div>
             <div className={`mobile-nav-actions mobile-nav-actions-${MOBILE_NAV_VARIANT}`}>
+              <button className="lang-toggle" type="button" onClick={toggleLang} aria-label={text.langSwitchAria}>
+                {text.langSwitch}
+              </button>
               <a className="cta cta-secondary" href="/IsraaChaabi_dev.pdf" target="_blank" rel="noreferrer">
-                Open CV
+                {text.openCv}
               </a>
               <button
                 className="cta cta-button"
@@ -234,7 +306,7 @@ export default function PortfolioShell({
                   setIsContactOpen(true);
                 }}
               >
-                Let&apos;s Talk
+                {text.letsTalk}
               </button>
             </div>
           </aside>
@@ -246,7 +318,7 @@ export default function PortfolioShell({
           <article className="card hero-main reveal delay-1">
             <span className="tag">{tag}</span>
             <h1>
-              I&apos;m <em>{title}</em>
+              {text.heroIntro} <em>{title}</em>
             </h1>
             <p className="role">{role}</p>
             <p className="summary">{summary}</p>
@@ -280,7 +352,7 @@ export default function PortfolioShell({
               priority={imagePriority}
               sizes="(max-width: 1024px) 100vw, 38vw"
             />
-            <div className="status">Open to Opportunities</div>
+            <div className="status">{text.openToOpportunities}</div>
           </article>
         </section>
       ) : null}
@@ -297,12 +369,12 @@ export default function PortfolioShell({
             onClick={(event) => event.stopPropagation()}
           >
             <div className="contact-modal-head">
-              <h2 id="contact-modal-title">Let&apos;s Talk</h2>
+              <h2 id="contact-modal-title">{text.contactTitle}</h2>
               <button
                 className="contact-modal-close"
                 type="button"
                 onClick={() => setIsContactOpen(false)}
-                aria-label="Close contact form"
+                aria-label={text.closeContactForm}
               >
                 x
               </button>
@@ -310,36 +382,36 @@ export default function PortfolioShell({
 
             <form className="contact-modal-form" onSubmit={onSubmitContact}>
               <label>
-                Name
+                {text.form.name}
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={onInputChange}
-                  placeholder="Your name"
+                  placeholder={text.form.namePlaceholder}
                   disabled={submitState === "loading"}
                   required
                 />
               </label>
               <label>
-                Email
+                {text.form.email}
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={onInputChange}
-                  placeholder="your@email.com"
+                  placeholder={text.form.emailPlaceholder}
                   disabled={submitState === "loading"}
                   required
                 />
               </label>
               <label>
-                Message
+                {text.form.message}
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={onInputChange}
-                  placeholder="Tell me about your project..."
+                  placeholder={text.form.messagePlaceholder}
                   rows={5}
                   disabled={submitState === "loading"}
                   required
@@ -355,10 +427,10 @@ export default function PortfolioShell({
                   onClick={() => setIsContactOpen(false)}
                   disabled={submitState === "loading"}
                 >
-                  Cancel
+                  {text.form.cancel}
                 </button>
                 <button className="cta cta-button" type="submit" disabled={submitState === "loading"}>
-                  {submitState === "loading" ? "Sending..." : "Send Message"}
+                  {submitState === "loading" ? text.form.sending : text.form.send}
                 </button>
               </div>
             </form>
