@@ -1264,6 +1264,171 @@ h1 em {
   overflow: hidden;
 }
 
+.availability-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.availability-filler {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  min-height: 0;
+  padding-top: 16px;
+}
+
+.availability-binary-frame {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.availability-divider {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.availability-divider-bottom {
+  opacity: 0.72;
+}
+
+.availability-divider-bottom .availability-divider-line {
+  min-height: 2px;
+}
+
+.availability-divider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(72, 236, 255, 0.65);
+  animation: availabilityDotPulse 1.6s ease-in-out infinite;
+}
+
+.availability-divider-dot:last-child {
+  animation-delay: 0.8s;
+}
+
+.availability-divider-line {
+  position: relative;
+  min-height: 2px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.availability-divider-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(72, 236, 255, 0.2), rgba(255, 70, 189, 0.18));
+}
+
+.availability-divider-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translate(-100%, -50%);
+  background: linear-gradient(90deg, transparent, rgba(72, 236, 255, 0.95), transparent);
+  animation: availabilityLineSweep 2.1s ease-in-out infinite;
+}
+
+.availability-binary-inline {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.74rem;
+  color: #8af6ff;
+  text-shadow: 0 0 10px rgba(72, 236, 255, 0.26);
+  line-height: 1.45;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  animation: binaryGlow 2.8s ease-in-out infinite;
+}
+
+.availability-binary {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.availability-binary-decoded {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: #8af6ff;
+  text-shadow: 0 0 12px rgba(72, 236, 255, 0.2);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  display: block;
+}
+
+.availability-binary-decoded {
+  margin-top: 20px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.availability-binary-philosophy {
+  margin: auto 0 0;
+  color: #8af6ff;
+  font-size: 0.84rem;
+  text-shadow: 0 0 10px rgba(72, 236, 255, 0.2);
+  text-align: center;
+}
+
+@keyframes availabilityDotPulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes availabilityLineSweep {
+  0% {
+    transform: translate(-100%, -50%);
+  }
+  60% {
+    transform: translate(100%, -50%);
+  }
+  100% {
+    transform: translate(100%, -50%);
+  }
+}
+
+@keyframes binaryGlow {
+  0%,
+  100% {
+    opacity: 0.62;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
 .contact-orb {
   position: absolute;
   border-radius: 999px;

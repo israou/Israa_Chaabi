@@ -15,7 +15,6 @@ export default function MeChillPage() {
       chips: ["Creative mindset", "Product energy", "Deep work", "Execution first"],
       photoAlt: "Israa Chaabi working on her laptop",
       photoCaption: "Let's build something together.",
-      floatingTag: "Creative Engineer",
       story: "I love building elegant digital experiences and shipping products that are fast, stable, and beautiful.",
       storyChips: ["UI precision", "Backend logic", "Clean delivery"],
       availability: "Availability",
@@ -27,6 +26,11 @@ export default function MeChillPage() {
       locationValue: "Casablanca, Morocco (remote friendly)",
       collaborationStyle: "Collaboration style",
       collaborationStyleValue: "Clear communication, ownership, and fast iteration",
+      binaryLabel: "Binary decoder",
+      binaryRaw:
+        "01100001 01101100 01101100 00100000 01101101 01111001 00100000 01110000 01110010 01101111 01101010 01100101 01100011 01110100 00100000 01100001 01110010 01100101 00100000 01110011 01101001 01100111 01101110 01100101 01100100 00100000 01010010 01101111 01100010 01101001 01101111",
+      binaryDecoded: "all my projects are signed Robio",
+      philosophy: "My engineering philosophy",
     },
     fr: {
       tag: "Me Chill",
@@ -36,7 +40,6 @@ export default function MeChillPage() {
       chips: ["Esprit créatif", "Énergie produit", "Deep work", "Exécution d'abord"],
       photoAlt: "Israa Chaabi travaillant sur son laptop",
       photoCaption: "Construisons quelque chose ensemble.",
-      floatingTag: "Ingénieure créative",
       story:
         "J'aime concevoir des expériences digitales élégantes et livrer des produits rapides, stables et beaux.",
       storyChips: ["Précision UI", "Logique backend", "Livraison propre"],
@@ -49,6 +52,11 @@ export default function MeChillPage() {
       locationValue: "Casablanca, Maroc (remote friendly)",
       collaborationStyle: "Style de collaboration",
       collaborationStyleValue: "Communication claire, ownership et itération rapide",
+      binaryLabel: "Décodeur binaire",
+      binaryRaw:
+        "01100001 01101100 01101100 00100000 01101101 01111001 00100000 01110000 01110010 01101111 01101010 01100101 01100011 01110100 00100000 01100001 01110010 01100101 00100000 01110011 01101001 01100111 01101110 01100101 01100100 00100000 01010010 01101111 01100010 01101001 01101111",
+      binaryDecoded: "all my projects are signed Robio",
+      philosophy: "My engineering philosophy",
     },
   }[lang];
 
@@ -76,7 +84,6 @@ export default function MeChillPage() {
               sizes="(max-width: 1024px) 100vw, 32vw"
             />
             <span className="contact-photo-caption">{copy.photoCaption}</span>
-            <span className="contact-floating-tag">{copy.floatingTag}</span>
           </div>
 
           <div className="contact-story">
@@ -89,7 +96,7 @@ export default function MeChillPage() {
           </div>
         </article>
 
-        <article className="card section span-7 reveal delay-2">
+        <article className="card section span-7 reveal delay-2 availability-card">
           <h2>{copy.availability}</h2>
           <div className="education">
             <div className="item">
@@ -107,6 +114,27 @@ export default function MeChillPage() {
             <div className="item">
               <strong>{copy.collaborationStyle}</strong>
               <span>{copy.collaborationStyleValue}</span>
+            </div>
+          </div>
+          <div className="availability-filler">
+            <div className="availability-binary-frame">
+              <div className="availability-divider availability-divider-top" aria-hidden="true">
+                <span className="availability-divider-dot" />
+                <span className="availability-divider-line" />
+                <span className="availability-divider-dot" />
+              </div>
+              <p className="availability-binary-inline">{copy.binaryRaw}</p>
+              <div className="availability-divider availability-divider-bottom" aria-hidden="true">
+                <span className="availability-divider-dot" />
+                <span className="availability-divider-line" />
+                <span className="availability-divider-dot" />
+              </div>
+            </div>
+            <div className="availability-binary">
+              <p className="availability-binary-decoded">
+                {copy.binaryLabel}: {copy.binaryDecoded}
+              </p>
+              <p className="availability-binary-philosophy">{copy.philosophy}</p>
             </div>
           </div>
         </article>
