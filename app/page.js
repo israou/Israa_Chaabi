@@ -109,6 +109,15 @@ export default function HomePage() {
       processTitle: "My Process",
       stackTitle: "Tech Stack Snapshot",
       experienceTitle: "Experience Snapshot",
+      learningTitle: "Currently Learning",
+      learningItems: [
+       "Advanced SQL & Database Internals",
+       "Distributed Systems Fundamentals",
+       "System Design & Scalability",
+       "High Performance Backend Systems",
+       "Concurrency & Event-Driven Architectures",
+       "Low-Level Performance (Memory, CPU, Networking)"
+      ],
       ctaTitle: "Ready To Build Something Bold?",
       ctaSummary:
         "I am open to internship and freelance opportunities where product quality, speed, and impact really matter.",
@@ -194,6 +203,13 @@ export default function HomePage() {
       processTitle: "Ma Méthode",
       stackTitle: "Aperçu de la Stack",
       experienceTitle: "Aperçu d'Expérience",
+      learningTitle: "Currently Learning",
+      learningItems: [
+        "SQL",
+        "System Design Basics",
+        "Backend Architecture",
+        "Performance Optimization",
+      ],
       ctaTitle: "Prête à Construire Quelque Chose d'Ambitieux ?",
       ctaSummary:
         "Je suis ouverte aux opportunités de stage et freelance où la qualité produit, la vitesse et l'impact comptent.",
@@ -281,6 +297,18 @@ export default function HomePage() {
               <div className="timeline-item" key={item.title}>
                 <strong>{item.title}</strong>
                 <p>{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="card section span-12 reveal delay-3 learning-section">
+          <h2>{copy.learningTitle}</h2>
+          <div className="learning-grid">
+            {copy.learningItems.map((item) => (
+              <div className="learning-item" key={item}>
+                <span />
+                <strong>{item}</strong>
               </div>
             ))}
           </div>

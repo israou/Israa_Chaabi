@@ -14,7 +14,6 @@ export default function MeChillPage() {
         "A more personal side of my journey: I enjoy building clean products, learning deeply, and turning ideas into polished experiences.",
       chips: ["Creative mindset", "Product energy", "Deep work", "Execution first"],
       photoAlt: "Israa Chaabi working on her laptop",
-      photoCaption: "Let's build something together.",
       story: "I love building elegant digital experiences and shipping products that are fast, stable, and beautiful.",
       storyChips: ["UI precision", "Backend logic", "Clean delivery"],
       availability: "Availability",
@@ -39,7 +38,6 @@ export default function MeChillPage() {
         "Une facette plus personnelle de mon parcours: j'aime construire des produits propres, apprendre en profondeur et transformer des idées en expériences soignées.",
       chips: ["Esprit créatif", "Énergie produit", "Deep work", "Exécution d'abord"],
       photoAlt: "Israa Chaabi travaillant sur son laptop",
-      photoCaption: "Construisons quelque chose ensemble.",
       story:
         "J'aime concevoir des expériences digitales élégantes et livrer des produits rapides, stables et beaux.",
       storyChips: ["Précision UI", "Logique backend", "Livraison propre"],
@@ -83,7 +81,6 @@ export default function MeChillPage() {
               className="contact-photo"
               sizes="(max-width: 1024px) 100vw, 32vw"
             />
-            <span className="contact-photo-caption">{copy.photoCaption}</span>
           </div>
 
           <div className="contact-story">

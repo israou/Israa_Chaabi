@@ -1094,6 +1094,74 @@ h1 em {
   line-height: 1.5;
 }
 
+.learning-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.learning-section::before {
+  content: "";
+  position: absolute;
+  inset: auto -80px -90px auto;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(72, 236, 255, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.learning-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(72, 236, 255, 0.28);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: rgba(10, 16, 32, 0.45);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.learning-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(72, 236, 255, 0.62);
+  box-shadow: 0 0 18px rgba(72, 236, 255, 0.14);
+}
+
+.learning-item span {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(72, 236, 255, 0.8);
+  background: rgba(72, 236, 255, 0.16);
+  box-shadow: 0 0 12px rgba(72, 236, 255, 0.35);
+  flex: 0 0 18px;
+}
+
+.learning-item span::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid #8cf8ff;
+  border-bottom: 2px solid #8cf8ff;
+  transform: rotate(40deg);
+}
+
+.learning-item strong {
+  color: #eaf9ff;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+}
+
 .home-cta {
   position: relative;
   overflow: hidden;
@@ -1766,7 +1834,8 @@ body.modal-open {
   }
 
   .value-grid,
-  .process-grid {
+  .process-grid,
+  .learning-grid {
     grid-template-columns: 1fr;
   }
 
