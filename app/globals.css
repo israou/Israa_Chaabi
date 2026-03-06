@@ -254,7 +254,9 @@ body::after {
   z-index: 55;
   background: rgba(6, 7, 16, 0.66);
   backdrop-filter: blur(4px);
-  display: block;
+  display: grid;
+  place-items: center;
+  padding: 14px;
 }
 
 .mobile-nav-panel {
@@ -419,14 +421,15 @@ body::after {
 }
 
 .mobile-nav-panel-v4 {
-  left: 50%;
+  position: relative;
+  left: auto;
   right: auto;
-  top: 50%;
+  top: auto;
   width: min(420px, calc(100vw - 32px));
   max-height: 86dvh;
-  transform: translate(-50%, -50%);
+  transform: none;
   border-radius: 28px;
-  animation: popIn 0.22s ease;
+  animation: popInCenter 0.22s ease;
 }
 
 .mobile-nav-links-v4 {
@@ -1696,6 +1699,17 @@ body.modal-open {
   }
 }
 
+@keyframes popInCenter {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -1827,7 +1841,7 @@ body.modal-open {
   }
 
   .mobile-topbar-title {
-    display: inline-flex;
+    display: none;
     font-size: 0.82rem;
     letter-spacing: 0.08em;
   }
