@@ -316,7 +316,7 @@ export default function PortfolioShell({
       {!hideHero ? (
         <section className="hero">
           <article className="card hero-main reveal delay-1">
-            <span className="tag">{tag}</span>
+            {tag ? <span className="tag">{tag}</span> : null}
             <h1>
               {text.heroIntro} <em>{title}</em>
             </h1>

@@ -15,11 +15,6 @@ export function LanguageProvider({ children }) {
     const saved = window.localStorage.getItem("portfolio_lang");
     if (saved === "en" || saved === "fr") {
       setLang(saved);
-      return;
-    }
-
-    if (navigator.language?.toLowerCase().startsWith("fr")) {
-      setLang("fr");
     }
   }, []);
 

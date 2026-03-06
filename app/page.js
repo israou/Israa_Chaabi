@@ -33,7 +33,7 @@ export default function HomePage() {
   const { lang } = useLanguage();
   const copy = {
     en: {
-      tag: "Futuristic Portfolio",
+      tag: "Portfolio",
       role: "Full-Stack Developer | Digital & Software Engineering Architect",
       summary: "I build elegant and reliable digital products, from polished frontends to scalable backend systems.",
       chips: ["Casablanca", "Arabic | French | English", "React | Node.js | Docker"],
@@ -117,7 +117,7 @@ export default function HomePage() {
       meChill: "Me Chill",
     },
     fr: {
-      tag: "Portfolio Futuriste",
+      tag: "Portfolio",
       role: "Développeuse Full-Stack | Architecte en ingénierie logicielle",
       summary:
         "Je construis des produits digitaux élégants et fiables, du frontend soigné au backend scalable.",
