@@ -23,5 +23,5 @@ jobs:
         with:
           personal_token: ${{ secrets.DEPLOY_TOKEN }}
           external_repository: israou/israa.engineer
-          publish_dir: ./dist
+          publish_dir: ./out
           publish_branch: main
