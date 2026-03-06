@@ -1804,6 +1804,10 @@ body.modal-open {
     box-shadow: 0 10px 30px rgba(5, 9, 22, 0.34);
   }
 
+  .contact-modal-overlay {
+    padding: 12px;
+  }
+
   .contact-modal-actions {
     justify-content: stretch;
   }
@@ -1813,7 +1817,9 @@ body.modal-open {
   }
 
   .contact-modal {
-    width: min(96vw, 96vw);
+    width: min(560px, 100%);
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 18px;
     border-radius: 16px;
   }
