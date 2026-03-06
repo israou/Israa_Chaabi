@@ -1,6 +1,7 @@
 import { Space_Grotesk, Sora } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "../components/LanguageProvider";
+import ScrollToTopOnLoad from "../components/ScrollToTopOnLoad";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="fr">
       <body className={`${spaceGrotesk.variable} ${sora.variable}`}>
         <LanguageProvider>{children}</LanguageProvider>
+        <ScrollToTopOnLoad />
       </body>
     </html>
   );
