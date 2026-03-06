@@ -16,6 +16,10 @@ const sora = Sora({
 export const metadata = {
   title: "Israa Chaabi | Futuristic Portfolio",
   description: "Portfolio futuriste d'Israa Chaabi, Full-Stack Developer.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }) {

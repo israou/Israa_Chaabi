@@ -1185,6 +1185,38 @@ h1 em {
   gap: 10px;
 }
 
+.not-found-wrap {
+  min-height: calc(100vh - 180px);
+  display: grid;
+  place-items: center;
+}
+
+.not-found-card {
+  width: min(680px, 100%);
+  padding: 30px;
+  text-align: center;
+}
+
+.not-found-code {
+  margin: 0;
+  font-family: var(--font-sora), sans-serif;
+  font-size: clamp(3rem, 9vw, 5rem);
+  line-height: 1;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 18px rgba(72, 236, 255, 0.45);
+}
+
+.not-found-title {
+  margin: 10px 0 0;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.not-found-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+}
+
 @keyframes cardRise {
   to {
     opacity: 1;
