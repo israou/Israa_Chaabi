@@ -122,6 +122,17 @@ export default function PortfolioShell({
   }, [isContactOpen]);
 
   useEffect(() => {
+    const onOpenContactModal = () => {
+      setIsContactOpen(true);
+    };
+
+    window.addEventListener("open-contact-modal", onOpenContactModal);
+    return () => {
+      window.removeEventListener("open-contact-modal", onOpenContactModal);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!isContactOpen) {
       setSubmitState("idle");
       setSubmitMessage("");

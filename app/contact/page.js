@@ -29,6 +29,7 @@ export default function ContactPage() {
       moreBody:
         "Want a more personal vibe? Check the Me Chill page with my lifestyle photo, creative story, and availability.",
       openMeChill: "Open Me Chill",
+      letsTalk: "Let's Talk",
     },
     fr: {
       tag: "Contact",
@@ -42,6 +43,7 @@ export default function ContactPage() {
       moreBody:
         "Tu veux une version plus personnelle ? Découvre la page Me Chill avec ma photo lifestyle, mon univers créatif et mes disponibilités.",
       openMeChill: "Ouvrir Me Chill",
+      letsTalk: "Discutons",
     },
   }[lang];
 
@@ -64,6 +66,15 @@ export default function ContactPage() {
                 <span>{link.value}</span>
               </a>
             ))}
+          </div>
+          <div className="section-inline-cta">
+            <button
+              className="cta cta-button"
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open-contact-modal"))}
+            >
+              {copy.letsTalk}
+            </button>
           </div>
         </article>
 
